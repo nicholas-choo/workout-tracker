@@ -100,7 +100,7 @@ export default function SettingsPage({ user }) {
                     <div className="tracker-logo">IRON<span>LOG</span></div>
                     <div className="tracker-username">SETTINGS</div>
                 </div>
-                <button className="signout-btn" onClick={() => navigate("/")}>← BACK</button>
+                <button className="signout-btn" onClick={() => navigate("/tracker")}>← BACK</button>
             </header>
 
             <div className="tracker-main" style={{ maxWidth: 560 }}>

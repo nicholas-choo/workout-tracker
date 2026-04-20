@@ -28,6 +28,7 @@ export default function RegisterPage() {
     return (
         <div className="auth-root">
             <div className="auth-card">
+                <Link to="/" className="auth-back">← BACK</Link>
                 <div className="auth-logo">IRON<span>LOG</span></div>
                 <div className="auth-subtitle">CREATE YOUR ACCOUNT</div>
                 {error && <div className="auth-error">{error}</div>}

@@ -26,6 +26,7 @@ export default function LoginPage() {
     return (
         <div className="auth-root">
             <div className="auth-card">
+                <Link to="/" className="auth-back">← BACK</Link>
                 <div className="auth-logo">IRON<span>LOG</span></div>
                 <div className="auth-subtitle">SIGN IN TO YOUR ACCOUNT</div>
                 {error && <div className="auth-error">{error}</div>}

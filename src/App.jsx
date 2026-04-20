@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { auth } from "./firebase"
 import { onAuthStateChanged } from 'firebase/auth'
-import WorkoutTracker from "./WorkoutTracker";
+import LandingPage from "./LandingPage";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
+import WorkoutTracker from "./WorkoutTracker";
 import SettingsPage from "./SettingsPage";
 
 export default function App() {
@@ -31,10 +32,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={user ? <WorkoutTracker user={user} /> : <Navigate to="/login" />} />
-        <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
-        <Route path="/register" element={!user ? <RegisterPage /> : <Navigate to="/" />} />
-        <Route path="/settings" element={user ? <SettingsPage user={user} /> : <Navigate to="/login" />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/tracker" />} />
+        <Route path="/register" element={!user ? <RegisterPage /> : <Navigate to="/tracker" />} />
+        <Route path="/tracker" element={user ? <WorkoutTracker user={user} /> : <Navigate to="/" />} />
+        <Route path="/settings" element={user ? <SettingsPage user={user} /> : <Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
