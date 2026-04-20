@@ -34,6 +34,7 @@ export default function WorkoutTracker({ user }) {
     const [flash, setFlash] = useState(null);
     const [log, setLog] = useState([]);
     const [view, setView] = useState("week");
+    const [approved, setApproved] = useState(false);
 
     useEffect(() => {
         const setup = async () => {
@@ -48,6 +49,15 @@ export default function WorkoutTracker({ user }) {
                         createdAt: serverTimestamp(),
                     });
                 }
+
+                const approvedRef = doc(db, "approved", user.uid);
+                const approvedSnap = await getDoc(approvedRef);
+                if (!approvedSnap.exists()) {
+                setApproved(false);
+                setLoading(false);
+                return;
+                }
+                setApproved(true);
 
                 // Load routine
                 const routineRef = doc(db, "users", user.uid, "data", "routine");
@@ -217,6 +227,21 @@ export default function WorkoutTracker({ user }) {
             <div className="loading-root">
                 <div className="loading-logo">IRON<span>LOG</span></div>
                 <div className="loading-sub">LOADING...</div>
+            </div>
+        );
+    }
+
+    if (!approved) {
+        return (
+            <div className="loading-root">
+                <div className="loading-logo">IRON<span>LOG</span></div>
+                <div className="loading-sub">AWAITING APPROVAL</div>
+                <p style={{color: "#444", fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: 2, fontSize: 13, marginTop: 16, marginBottom: 16}}>
+                    Contact the admin to get access.
+                </p>
+                <button className="signout-btn" onClick={handleSignOut}>
+                    SIGN OUT
+                </button>
             </div>
         );
     }
