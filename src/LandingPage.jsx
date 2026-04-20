@@ -115,7 +115,7 @@ export default function LandingPage() {
         {/* Footer */}
         <footer className="landing-footer">
             <div className="footer-logo">IRON<span>LOG</span></div>
-            <div className="footer-copy">© {new Date().getFullYear()} IRONLOG. BUILT BY{" "}
+            <div className="footer-copy">IRONLOG. BUILT BY{" "}
             <a className="footer-link" href="https://nicholaschoo.com" target="_blank" rel="noreferrer">
                 NICHOLAS CHOO
             </a>
