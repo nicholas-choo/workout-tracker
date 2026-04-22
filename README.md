@@ -43,16 +43,18 @@ IronLog is a **permission-based application**. Registration is open, but access 
 
 ## Project Structure
 
+```
 src/
-├── firebase.js          # Firebase config and exports
-├── main.jsx             # App entry point
-├── app.css              # Global styles
-├── App.jsx              # Routing and auth state
-├── LandingPage.jsx      # Public landing page
-├── LoginPage.jsx        # Login page
-├── RegisterPage.jsx     # Registration page
-├── WorkoutTracker.jsx   # Main tracker (protected)
-└── SettingsPage.jsx     # User settings (protected)
+├── firebase.js           # Firebase config and exports
+├── main.jsx              # App entry point
+├── app.css               # Global styles
+├── App.jsx               # Routing and auth state
+├── LandingPage.jsx       # Public landing page
+├── LoginPage.jsx         # Login page
+├── RegisterPage.jsx      # Registration page
+├── WorkoutTracker.jsx    # Main tracker (protected)
+└── SettingsPage.jsx      # User settings (protected)
+```
 
 ---
 
