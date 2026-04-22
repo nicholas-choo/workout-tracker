@@ -73,7 +73,7 @@ export default function WorkoutTracker({ user }) {
                 const loadedLogs = logSnap.docs.slice(0, 50).map((d) => ({
                     logId: d.id,
                     ...d.data(),
-                    time: d.data().completedAt?.toDate().toLocaleTimeString() || "",
+                    time: d.data().completedAt?.toDate().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) || "",
                     date: d.data().date || d.data().completedAt?.toDate().toLocaleDateString("en-GB") || "",
                 }));
                 setLog(loadedLogs);
@@ -471,28 +471,37 @@ export default function WorkoutTracker({ user }) {
                         </div>
                     ) : (
                         <div className="ex-list">
-                            {log.map((entry) => (
-                                <div key={entry.logId} className="ex-row" style={{ borderLeftColor: COLORS[entry.group] }}>
-                                    <div style={{width: 64, textAlign: "center", color: "#444", fontSize: 10, fontFamily: "'Barlow Condensed', sans-serif", lineHeight: 1.8}}>
-                                        {entry.date || "—"}<br />
-                                        {entry.day}<br />
-                                        {entry.time?.slice(0, 5)}
-                                    </div>
-                                    <div className="ex-info">
-                                        <div className="ex-name">{entry.exerciseName}</div>
-                                        <div className="ex-meta">
-                                            <span>{entry.sets} × {entry.reps}</span>
-                                            {entry.weight > 0 && <span className="weight">@ {entry.weight}KG</span>}
-                                            <span className="muscle-tag" style={{ background: COLORS[entry.group] + "22", color: COLORS[entry.group] }}>
-                                                {entry.group}
-                                            </span>
-                                        </div>
-                                    </div>
+                            {Object.entries(groupByDate(log)).map(([date, entries]) => (
+                                <div key={date}>
 
-                                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                        <div style={{ color: "#00E676", fontSize: 18, fontWeight: 900 }}>✓</div>
-                                        <button className="icon-btn delete" onClick={() => deleteLog(entry.logId)}>✕</button>
-                                    </div>
+                                    {/* Date header */}
+                                    <div className="log-date-header">{date}</div>
+
+                                    {/* Entries for that date */}
+                                    {entries.map((entry) => (
+                                        <div key={entry.logId} className="ex-row" style={{ borderLeftColor: COLORS[entry.group] }}>
+                                            <div style={{width: 48, textAlign: "center", color: "#444", fontSize: 10, fontFamily: "'Barlow Condensed', sans-serif", lineHeight: 1.8}}>
+                                                {entry.date || "—"}<br />
+                                                {entry.time?.slice(0, 5)}
+                                            </div>
+
+                                            <div className="ex-info">
+                                                <div className="ex-name">{entry.exerciseName}</div>
+                                                <div className="ex-meta">
+                                                    <span>{entry.sets} × {entry.reps}</span>
+                                                    {entry.weight > 0 && <span className="weight">@ {entry.weight}KG</span>}
+                                                    <span className="muscle-tag" style={{ background: COLORS[entry.group] + "22", color: COLORS[entry.group] }}>
+                                                        {entry.group}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                                <div style={{ color: "#00E676", fontSize: 18, fontWeight: 900 }}>✓</div>
+                                                <button className="icon-btn delete" onClick={() => deleteLog(entry.logId)}>✕</button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             ))}
                         </div>
@@ -501,4 +510,13 @@ export default function WorkoutTracker({ user }) {
             )}
         </div>
     );
+}
+
+function groupByDate(logs) {
+    return logs.reduce((groups, entry) => {
+        const date = entry.date || "Unknown";
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(entry);
+        return groups;
+    }, {});
 }
